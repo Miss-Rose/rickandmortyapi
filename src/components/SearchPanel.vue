@@ -15,6 +15,7 @@
         type="text"
         placeholder="Search by name..."
         v-model="value"
+        @input="search"
       />
       <CustomButton @click="search">Search</CustomButton>
     </div>

@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import CardServices from "@/services/CardServices";
 import actions from "@/store/actions";
 import mutations from "@/store/mutations";
+import router from "@/router";
 
 export default createStore({
   state: {
@@ -9,6 +10,10 @@ export default createStore({
     totalPages: 0,
     currentFilter: { id: 0, name: "All" },
     searchName: "",
+    error: {
+      isError: false,
+      msg: "",
+    },
   },
   mutations: {
     [mutations.UPDATE_CHARACTERS](state, payload) {
@@ -27,20 +32,30 @@ export default createStore({
   },
   actions: {
     [actions.GET_CHARACTERS]: async ({ commit, state }, payload) => {
-      let url =
+      const template = `/character/?page=${payload}&name=${state.searchName}`;
+
+      const url =
         state.currentFilter.name === "All"
-          ? `/character/?page=${payload}`
-          : `/character/?species=${state.currentFilter.name}&page=${payload}`;
+          ? template
+          : `${template}&species=${state.currentFilter.name}`;
       try {
         const { data } = await CardServices.get(url);
         console.log("DATA", data);
         commit("UPDATE_CHARACTERS", data.results);
         commit("UPDATE_TOTAL_PAGES", data.info.pages);
+        state.error = {
+          isError: false,
+          msg: "",
+        };
       } catch (e) {
-        alert("Error");
+        state.error = {
+          isError: true,
+          msg: "Object not found",
+        };
       }
     },
     [actions.CHANGE_FILTER]: ({ commit }, payload) => {
+      router.push(`/?page=1`);
       commit("UPDATE_CURRENT_FILTER", payload);
     },
     [actions.UPDATE_SEARCH_NAME]: ({ commit }, payload) => {

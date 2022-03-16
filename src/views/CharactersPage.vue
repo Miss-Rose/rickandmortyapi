@@ -5,8 +5,11 @@
     @setCurrentFilter="setCurrentFilter"
     @search="search"
   />
-  <CharacterCardList :filteredData="filteredData" />
-  <Pagination :page="page" :totalPages="totalPages" />
+  <template v-if="!error.isError">
+    <CharacterCardList :filteredData="filteredData" />
+    <Pagination :page="page" :totalPages="totalPages" />
+  </template>
+  <div v-else>Not found</div>
 </template>
 
 <script>
@@ -26,7 +29,6 @@ export default {
     return {
       filters: FILTERS,
       currentFilter: {},
-      searchName: "",
     };
   },
   computed: {
@@ -36,15 +38,14 @@ export default {
         return state.characters;
       },
       active: (state) => state.currentFilter,
+      error: (state) => state.error,
     }),
     ...mapGetters(["totalPages"]),
     page() {
       return parseInt(this.$route.query.page) || 1;
     },
     filteredData() {
-      console.log("searchName", this.searchName);
       if (this.active.name !== "All") {
-        console.log("DATA", this.data);
         return selectItemByFilter(this.characters, this.active);
       } else {
         return this.characters;
@@ -63,9 +64,8 @@ export default {
       this.currentFilter = filter;
       console.log("this.currentFilter", this.currentFilter);
       this.$store.dispatch(actions.CHANGE_FILTER, this.currentFilter);
-      this.$router.push(`/?page=1`);
     },
-    search(name){
+    search(name) {
       this.$store.dispatch(actions.UPDATE_SEARCH_NAME, name);
     },
   },

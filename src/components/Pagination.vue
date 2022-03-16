@@ -1,7 +1,7 @@
 <template>
   <div class="pages-nav">
     <div>Page {{ page }} of {{ totalPages }}</div>
-    <div>
+    <div v-if="totalPages > 1">
       <router-link
         :to="{ name: 'CharactersPage', query: { page: page - 1 } }"
         rel="prev"
