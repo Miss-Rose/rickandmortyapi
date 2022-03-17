@@ -4,7 +4,7 @@
       <router-link to="/">CharactersPage</router-link> |
       <router-link to="/about">Favourites</router-link>
     </div>
-    <Counter class="counter"/>
+    <Counter class="counter" />
   </div>
 </template>
 

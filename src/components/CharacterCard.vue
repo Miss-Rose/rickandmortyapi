@@ -1,5 +1,5 @@
 <template>
-  <div id="character-card">
+  <div class="character-card" @click="getDetail">
     <img :src="character.image" alt="image" />
     <h4>{{ character.name }}</h4>
     <div>
@@ -12,6 +12,7 @@
 
 <script>
 import CustomButton from "@/shared/CustomButton";
+import actions from "@/store/actions";
 export default {
   name: "CharacterCard",
   components: { CustomButton },
@@ -21,13 +22,19 @@ export default {
       required: true,
     },
   },
+  methods: {
+    getDetail() {
+      this.$store.dispatch(actions.GET_CHARACTER, this.character.id);
+      this.$router.push(`/character/:${this.character.id}`);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 @import "../shared/library";
 
-#character-card {
+.character-card {
   display: inline-block;
   border: 1px solid darkslategray;
   border-radius: $border-radius;

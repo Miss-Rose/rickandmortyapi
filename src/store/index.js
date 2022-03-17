@@ -6,6 +6,7 @@ import mutations from "@/store/mutations";
 export default createStore({
   state: {
     characters: [],
+    character: {},
     totalPages: 0,
     currentFilter: { id: 0, name: "All" },
     searchName: "",
@@ -15,10 +16,10 @@ export default createStore({
     },
   },
   mutations: {
-    [mutations.UPDATE_CHARACTERS](state, payload) {
+    [mutations.SET_CHARACTERS](state, payload) {
       state.characters = payload;
     },
-    [mutations.UPDATE_TOTAL_PAGES](state, payload) {
+    [mutations.SET_TOTAL_PAGES](state, payload) {
       state.totalPages = payload;
     },
     [mutations.UPDATE_CURRENT_FILTER](state, payload) {
@@ -26,7 +27,9 @@ export default createStore({
     },
     [mutations.SET_SEARCH_NAME](state, payload) {
       state.searchName = payload;
-      console.log("SEARCH NAME", state.searchName);
+    },
+    [mutations.SET_CHARACTER](state, payload) {
+      state.character = payload;
     },
   },
   actions: {
@@ -39,9 +42,8 @@ export default createStore({
           : `${template}&species=${state.currentFilter.name}`;
       try {
         const { data } = await CardServices.get(url);
-        console.log("DATA", data);
-        commit("UPDATE_CHARACTERS", data.results);
-        commit("UPDATE_TOTAL_PAGES", data.info.pages);
+        commit("SET_CHARACTERS", data.results);
+        commit("SET_TOTAL_PAGES", data.info.pages);
         state.error = {
           isError: false,
           msg: "",
@@ -52,6 +54,11 @@ export default createStore({
           msg: "Object not found",
         };
       }
+    },
+    [actions.GET_CHARACTER]: async ({ commit, state }, payload) => {
+      const data = state.characters.find(({ id }) => id === payload);
+      console.log("DATA char", data);
+      commit("SET_CHARACTER", data);
     },
     [actions.CHANGE_FILTER]: ({ commit }, payload) => {
       commit("UPDATE_CURRENT_FILTER", payload);

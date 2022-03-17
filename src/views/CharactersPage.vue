@@ -34,10 +34,7 @@ export default {
   },
   computed: {
     ...mapState({
-      characters: (state) => {
-        console.log(state.characters);
-        return state.characters;
-      },
+      characters: (state) => state.characters,
       active: (state) => state.currentFilter,
       error: (state) => state.error,
     }),
