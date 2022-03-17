@@ -15,6 +15,7 @@
         :to="{ name: 'CharactersPage', query: { page: page + 1 } }"
         rel="next"
         @click="scroll"
+        v-show="page !== totalPages"
       >
         Next page >>
       </router-link>

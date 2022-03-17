@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 import CardServices from "@/services/CardServices";
 import actions from "@/store/actions";
 import mutations from "@/store/mutations";
-import router from "@/router";
 
 export default createStore({
   state: {
@@ -55,7 +54,6 @@ export default createStore({
       }
     },
     [actions.CHANGE_FILTER]: ({ commit }, payload) => {
-      router.push(`/?page=1`);
       commit("UPDATE_CURRENT_FILTER", payload);
     },
     [actions.UPDATE_SEARCH_NAME]: ({ commit }, payload) => {

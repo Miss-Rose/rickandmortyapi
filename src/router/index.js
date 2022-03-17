@@ -4,6 +4,10 @@ import CharactersPage from "../views/CharactersPage.vue";
 const routes = [
   {
     path: "/",
+    redirect: { name: "CharactersPage", query: { page: 1 } },
+  },
+  {
+    path: "/characters",
     name: "CharactersPage",
     component: CharactersPage,
   },

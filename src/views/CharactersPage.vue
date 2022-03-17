@@ -21,6 +21,7 @@ import { FILTERS } from "@/shared/consts";
 import { selectItemByFilter } from "@/shared/selectors";
 import Pagination from "@/components/Pagination";
 import { watchEffect } from "vue";
+import router from "@/router";
 
 export default {
   name: "Home",
@@ -45,11 +46,9 @@ export default {
       return parseInt(this.$route.query.page) || 1;
     },
     filteredData() {
-      if (this.active.name !== "All") {
-        return selectItemByFilter(this.characters, this.active);
-      } else {
-        return this.characters;
-      }
+      return this.active.name !== "All"
+        ? selectItemByFilter(this.characters, this.active)
+        : this.characters;
     },
   },
   created() {
@@ -57,12 +56,11 @@ export default {
       this.$store.dispatch(actions.GET_CHARACTERS, this.page);
     });
     this.currentFilter = this.active;
-    this.data = this.characters;
   },
   methods: {
     setCurrentFilter(filter) {
+      router.push({ query: { page: "1" } });
       this.currentFilter = filter;
-      console.log("this.currentFilter", this.currentFilter);
       this.$store.dispatch(actions.CHANGE_FILTER, this.currentFilter);
     },
     search(name) {
