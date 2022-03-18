@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import CharacterCardList from "@/components/CharacterCardList";
 import SearchPanel from "@/components/SearchPanel";
 import actions from "@/store/actions";
@@ -37,8 +37,8 @@ export default {
       characters: (state) => state.characters,
       active: (state) => state.currentFilter,
       error: (state) => state.error,
+      totalPages: (state) => state.totalPages,
     }),
-    ...mapGetters(["totalPages"]),
     page() {
       return parseInt(this.$route.query.page) || 1;
     },

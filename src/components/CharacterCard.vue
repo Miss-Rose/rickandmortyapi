@@ -1,5 +1,5 @@
 <template>
-  <div class="character-card" @click="getDetail">
+  <div class="character-card" @click="setId">
     <img :src="character.image" alt="image" />
     <h4>{{ character.name }}</h4>
     <div>
@@ -12,7 +12,6 @@
 
 <script>
 import CustomButton from "@/shared/CustomButton";
-import actions from "@/store/actions";
 export default {
   name: "CharacterCard",
   components: { CustomButton },
@@ -23,9 +22,8 @@ export default {
     },
   },
   methods: {
-    getDetail() {
-      this.$store.dispatch(actions.GET_CHARACTER, this.character.id);
-      this.$router.push(`/character/:${this.character.id}`);
+    setId() {
+      this.$router.push(`/character/${this.character.id}`);
     },
   },
 };
