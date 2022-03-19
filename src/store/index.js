@@ -14,6 +14,8 @@ export default createStore({
       isError: false,
       msg: "",
     },
+    favouriteList: [],
+    favouriteCount: 0,
   },
   mutations: {
     [mutations.SET_CHARACTERS](state, payload) {
@@ -30,6 +32,12 @@ export default createStore({
     },
     [mutations.SET_CHARACTER](state, payload) {
       state.character = payload;
+    },
+    [mutations.SET_FAVOURITE](state, payload) {
+      state.favouriteList = payload;
+    },
+    [mutations.SET_FAVOURITE_COUNT](state, payload) {
+      state.favouriteCount = payload;
     },
   },
   actions: {
@@ -78,6 +86,33 @@ export default createStore({
     },
     [actions.UPDATE_SEARCH_NAME]: ({ commit }, payload) => {
       commit("SET_SEARCH_NAME", payload);
+    },
+    [actions.ADD_TO_FAVOURITE]: ({ commit, state }, payload) => {
+      const favouriteChar = [...state.favouriteList, payload];
+      localStorage.setItem(
+        "favourite_characters",
+        JSON.stringify(favouriteChar)
+      );
+      commit("SET_FAVOURITE", favouriteChar);
+      const newCount = state.favouriteCount + 1;
+      commit("SET_FAVOURITE_COUNT", newCount);
+    },
+    [actions.REMOVE_FROM_FAVOURITE]: ({ commit, state }, payload) => {
+      const favouriteChar = state.favouriteList.filter(
+        ({ id }) => payload !== id
+      );
+      localStorage.setItem(
+        "favourite_characters",
+        JSON.stringify(favouriteChar)
+      );
+      commit("SET_FAVOURITE", favouriteChar);
+      const newCount = state.favouriteCount - 1;
+      commit("SET_FAVOURITE_COUNT", newCount);
+    },
+    [actions.GET_FAVOURITE_LIST]: ({ commit }) => {
+      const list = JSON.parse(localStorage.getItem("favourite_characters"));
+      commit("SET_FAVOURITE", list ? list : []);
+      commit("SET_FAVOURITE_COUNT", list.length || 0);
     },
   },
   modules: {},

@@ -6,12 +6,23 @@
       <span>{{ character.species }} - </span>
       <span>{{ character.status }}</span>
     </div>
-    <CustomButton>Add To Favourites</CustomButton>
+    <CustomButton
+      v-if="!isLiked"
+      @click.stop="addToFavourite"
+      :isClicked="isLiked"
+      >Add To Favourites</CustomButton
+    >
+    <CustomButton v-else @click.stop="removeFromFavourite" :isClicked="isLiked"
+      >Remove From Favourites</CustomButton
+    >
   </div>
 </template>
 
 <script>
 import CustomButton from "@/shared/CustomButton";
+import actions from "@/store/actions";
+import { mapState } from "vuex";
+
 export default {
   name: "CharacterCard",
   components: { CustomButton },
@@ -21,9 +32,23 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapState({
+      favouriteList: (state) => state.favouriteList,
+    }),
+    isLiked() {
+      return this.favouriteList.some(({ id }) => id === this.character.id);
+    },
+  },
   methods: {
     setId() {
       this.$router.push(`/character/${this.character.id}`);
+    },
+    addToFavourite() {
+      this.$store.dispatch(actions.ADD_TO_FAVOURITE, this.character);
+    },
+    removeFromFavourite() {
+      this.$store.dispatch(actions.REMOVE_FROM_FAVOURITE, this.character.id);
     },
   },
 };

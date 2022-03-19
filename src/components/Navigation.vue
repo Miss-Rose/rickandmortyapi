@@ -2,18 +2,24 @@
   <div id="nav">
     <div class="links">
       <router-link to="/">CharactersPage</router-link> |
-      <router-link to="/about">Favourites</router-link>
+      <router-link to="/favourites">Favourites</router-link>
     </div>
-    <Counter class="counter" />
+    <Counter class="counter" :counter="counter" />
   </div>
 </template>
 
 <script>
 import Counter from "@/components/Counter";
+import { mapState } from "vuex";
 
 export default {
   name: "Navigation",
   components: { Counter },
+  computed: {
+    ...mapState({
+      counter: (state) => state.favouriteCount,
+    }),
+  },
 };
 </script>
 

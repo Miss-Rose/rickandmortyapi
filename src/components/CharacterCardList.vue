@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <div v-for="ch in filteredData" :key="ch.id">
+    <div v-for="ch in data" :key="ch.id">
       <CharacterCard :character="ch" />
     </div>
   </div>
@@ -12,7 +12,7 @@ import CharacterCard from "@/components/CharacterCard";
 export default {
   name: "CharacterCardList",
   components: { CharacterCard },
-  props: ["filteredData"],
+  props: ["data"],
 };
 </script>
 

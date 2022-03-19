@@ -7,10 +7,14 @@
 
 <script>
 import Navigation from "@/components/Navigation";
+import actions from "@/store/actions";
 
 export default {
   components: {
     Navigation,
+  },
+  mounted() {
+    this.$store.dispatch(actions.GET_FAVOURITE_LIST);
   },
 };
 </script>

@@ -1,13 +1,18 @@
 <template>
   <div id="counter">
-    <img src="../assets/heart.svg" alt="add to favourite" class="heart"/>
-    <span>1</span>
+    <img src="../assets/heart.svg" alt="add to favourite" class="heart" />
+    <span>{{ this.counter }}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: "Counter",
+  props: {
+    counter: {
+      type: Number,
+    },
+  },
 };
 </script>
 

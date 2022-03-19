@@ -6,7 +6,7 @@
     @search="search"
   />
   <template v-if="!error.isError">
-    <CharacterCardList :filteredData="filteredData" />
+    <CharacterCardList :data="filteredData" />
     <Pagination :page="page" :totalPages="totalPages" />
   </template>
   <div v-else>Not found</div>

@@ -8,7 +8,18 @@
       </div>
       <div>Last known location: {{ character.location.name }}</div>
       <div>First seen in: {{ character.episode }}</div>
-      <button>Add/Remove</button>
+      <CustomButton
+        v-if="!isLiked"
+        @click.stop="addToFavourite"
+        :isClicked="isLiked"
+        >Add To Favourites</CustomButton
+      >
+      <CustomButton
+        v-else
+        @click.stop="removeFromFavourite"
+        :isClicked="isLiked"
+        >Remove From Favourites</CustomButton
+      >
     </div>
     <div class="image">
       <img :src="character.image" alt="image" />
@@ -19,9 +30,11 @@
 <script>
 import { mapState } from "vuex";
 import actions from "@/store/actions";
+import CustomButton from "@/shared/CustomButton";
 
 export default {
   name: "CharacterDetail",
+  components: { CustomButton },
   date() {
     return {
       episode: null,
@@ -33,9 +46,21 @@ export default {
   computed: {
     ...mapState({
       character: (state) => state.character,
+      favouriteList: (state) => state.favouriteList,
     }),
     pageId() {
       return parseInt(this.$route.params.id) || null;
+    },
+    isLiked() {
+      return this.favouriteList.some(({ id }) => id === this.character.id);
+    },
+  },
+  methods: {
+    addToFavourite() {
+      this.$store.dispatch(actions.ADD_TO_FAVOURITE, this.character);
+    },
+    removeFromFavourite() {
+      this.$store.dispatch(actions.REMOVE_FROM_FAVOURITE, this.character.id);
     },
   },
 };
