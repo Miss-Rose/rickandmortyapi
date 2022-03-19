@@ -1,15 +1,15 @@
 <template>
-  <SearchPanel
-    :filters="filters"
-    :current="currentFilter"
-    @setCurrentFilter="setCurrentFilter"
-    @search="search"
-  />
-  <template v-if="!error.isError">
+  <ErrorMsg v-if="error.isError" />
+  <template v-if="filteredData">
+    <SearchPanel
+      :filters="filters"
+      :current="currentFilter"
+      @setCurrentFilter="setCurrentFilter"
+      @search="search"
+    />
     <CharacterCardList :data="filteredData" />
     <Pagination :page="page" :totalPages="totalPages" />
   </template>
-  <div v-else>Not found</div>
 </template>
 
 <script>
@@ -22,10 +22,11 @@ import { selectItemByFilter } from "@/shared/selectors";
 import Pagination from "@/components/Pagination";
 import { watchEffect } from "vue";
 import router from "@/router";
+import ErrorMsg from "@/components/ErrorMsg";
 
 export default {
   name: "Home",
-  components: { Pagination, CharacterCardList, SearchPanel },
+  components: { ErrorMsg, Pagination, CharacterCardList, SearchPanel },
   data() {
     return {
       filters: FILTERS,

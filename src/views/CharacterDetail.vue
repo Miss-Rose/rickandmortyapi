@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-page" v-if="character">
+  <div class="detail-page" v-if="!error.isError">
     <div class="description">
       <h2>{{ character.name }}</h2>
       <div>
@@ -25,16 +25,17 @@
       <img :src="character.image" alt="image" />
     </div>
   </div>
-  <div v-else>not found</div>
+  <ErrorWrapper v-else :error="error" />
 </template>
 <script>
 import { mapState } from "vuex";
 import actions from "@/store/actions";
 import CustomButton from "@/shared/CustomButton";
+import ErrorWrapper from "@/components/ErrorMsg";
 
 export default {
   name: "CharacterDetail",
-  components: { CustomButton },
+  components: { ErrorWrapper, CustomButton },
   date() {
     return {
       episode: null,
@@ -47,6 +48,7 @@ export default {
     ...mapState({
       character: (state) => state.character,
       favouriteList: (state) => state.favouriteList,
+      error: (state) => state.error,
     }),
     pageId() {
       return parseInt(this.$route.params.id) || null;

@@ -59,7 +59,7 @@ export default createStore({
       } catch (e) {
         state.error = {
           isError: true,
-          msg: "Object not found",
+          msg: "Characters not found",
         };
       }
     },
@@ -76,7 +76,7 @@ export default createStore({
         } catch (e) {
           state.error = {
             isError: true,
-            msg: "Object not found",
+            msg: "Character not found",
           };
         }
       }
@@ -112,7 +112,7 @@ export default createStore({
     [actions.GET_FAVOURITE_LIST]: ({ commit }) => {
       const list = JSON.parse(localStorage.getItem("favourite_characters"));
       commit("SET_FAVOURITE", list ? list : []);
-      commit("SET_FAVOURITE_COUNT", list.length || 0);
+      commit("SET_FAVOURITE_COUNT", list ? list.length : 0);
     },
   },
   modules: {},
