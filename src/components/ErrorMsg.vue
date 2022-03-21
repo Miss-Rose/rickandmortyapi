@@ -5,9 +5,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ErrorMsg",
-  props: ["error"],
+  computed: {
+    ...mapState({
+      error: (state) => state.error,
+    }),
+  },
 };
 </script>
 

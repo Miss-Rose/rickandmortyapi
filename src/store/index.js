@@ -43,7 +43,6 @@ export default createStore({
   actions: {
     [actions.GET_CHARACTERS]: async ({ commit, state }, payload) => {
       const template = `/character/?page=${payload}&name=${state.searchName}`;
-
       const url =
         state.currentFilter.name === "All"
           ? template
@@ -61,6 +60,7 @@ export default createStore({
           isError: true,
           msg: "Characters not found",
         };
+        throw new Error();
       }
     },
     [actions.GET_CHARACTER]: async ({ commit, state }, payload) => {

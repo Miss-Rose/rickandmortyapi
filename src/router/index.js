@@ -23,11 +23,7 @@ const routes = [
   {
     path: "/:catchAll(.*)",
     name: "NotFoundPage",
-    component: () => import("../views/NotFoundPage"),
-  },
-  {
-    path: "/404",
-    redirect: { name: "NotFoundPage" },
+    component: () => import("../views/NotFoundPage.vue"),
   },
 ];
 

@@ -1,15 +1,13 @@
 <template>
-  <ErrorMsg v-if="error.isError" />
-  <template v-if="filteredData">
-    <SearchPanel
-      :filters="filters"
-      :current="currentFilter"
-      @setCurrentFilter="setCurrentFilter"
-      @search="search"
-    />
-    <CharacterCardList :data="filteredData" />
-    <Pagination :page="page" :totalPages="totalPages" />
-  </template>
+  <SearchPanel
+    :filters="filters"
+    :current="currentFilter"
+    @setCurrentFilter="setCurrentFilter"
+    @search="search"
+  />
+  <CharacterCardList v-if="!error.isError" :data="filteredData" />
+  <ErrorMsg v-else />
+  <Pagination :page="page" :totalPages="totalPages" />
 </template>
 
 <script>
