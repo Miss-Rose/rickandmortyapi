@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-page" v-if="!error.isError">
+  <div class="detail-page" v-if="character">
     <div class="description">
       <h2>{{ character.name }}</h2>
       <div>
